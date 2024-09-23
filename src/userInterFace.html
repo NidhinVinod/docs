@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Calculator</title>
+  <link rel="stylesheet" href="./output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="bg-blue-900 bg-cover bg-center  text-white min-h-screen p-4 m-5" style="background-image: url(./pexels-olia-danilevich-5466806.jpg);">
+    <h2 class="text-4xl md:text-5xl font-bold mb-4 text-blue-500 flex items-center justify-center">
+                
+        <i class="fa-solid fa-money-bill-transfer text-white mr-2">Master Your Money</i> 
+    </h2>
+    <div class="max-w-md mx-auto  bg-white/10 backdrop-blur-lg rounded-xl shadow-lg p-8 w-full ">
+
+        <h1 class="text-2xl font-bold text-white mb-4">Budget Calculator</h1>
+        <div class="mb-4">
+            <label for="income" class="block text-gray-300">Income:</label>
+            <input type="number" id="income" placeholder="Enter your income" class="w-full p-2 border border-gray-500 rounded mt-1 bg-gray-700  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+        </div>
+        
+        <div class="mb-4">
+            <label for="expenseName" class="block text-white">Expense Name:</label>
+            <input type="text" id="expenseName" placeholder="Enter expense name" class="w-full p-2 border border-gray-500 rounded mt-1 bg-gray-700  placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+        </div>
+        
+        <div class="mb-4">
+            <label for="expenseAmount" class="block text-white">Expense Amount:</label>
+            <input type="number" id="expenseAmount" placeholder="Enter expense amount" class="w-full p-2 border border-gray-500 rounded mt-1 bg-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+        </div>
+        
+        
+        
+        <button id="addExpense" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-green-600 transition">Add Expense</button>
+        
+       
+    </div>
+
+    <div class="max-w-md mx-auto bg-white/10 backdrop-blur-lg rounded-xl shadow-lg p-8 w-full mt-5">
+        <h2 class="mt-6 text-xl font-semibold text-white">Expenses:</h2>
+        
+        <!-- Table for Expenses -->
+        <table class="min-w-full mt-2">
+            <thead>
+                <tr class="border-b">
+                    <th class="text-left py-2 text-white">Expense Name</th>
+                    <th class="text-right py-2 text-white">Amount</th>
+                </tr>
+            </thead>
+            <tbody id="expenseList"></tbody>
+        </table>
+    
+        <h3 class="mt-4 text-lg text-white">Total Expenses: $<div id="totalExpenses">0.00</div></h3>
+        <h3 class="mt-1 text-lg text-white">You saved: $<div id="balance">0.00</div></h3>
+    </div>
+    
+    <script>
+        document.getElementById('addExpense').addEventListener('click', function() {
+    const income = parseFloat(document.getElementById('income').value) || 0;
+    const expenseName = document.getElementById('expenseName').value;
+    const expenseAmount = parseFloat(document.getElementById('expenseAmount').value) || 0;
+
+    if (expenseName && expenseAmount > 0) {
+        const expenseList = document.getElementById('expenseList');
+        const listItem = document.createElement('li');
+        expenseList.appendChild(listItem);
+        updateBudget(expenseAmount, income);
+        const newRow = `
+            <tr>
+                <td class="py-2 text-white">${expenseName}</td>
+                <td class="py-2 text-white text-right">$${expenseAmount.toFixed(2)}</td>
+            </tr>
+        `;
+
+        // Add the new row to the table body
+        expenseList.innerHTML += newRow;
+
+    } else {
+        alert('Please enter a valid expense name and amount.');
+    }
+});
+
+let totalExpenses = 0;
+
+function updateBudget(expenseAmount, income) {
+    totalExpenses += expenseAmount;
+    document.getElementById('totalExpenses').textContent = totalExpenses.toFixed(2);
+    const balance = income - totalExpenses;
+    document.getElementById('balance').textContent = balance.toFixed(2);
+}
+
+    </script>
+</body>
+</html>
